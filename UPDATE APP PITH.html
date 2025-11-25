@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Aplikasi Keuangan Harian</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #192a15, #4be828);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .app-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .app-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-section, .summary-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #4be828;
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #4be828;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(75, 232, 40, 0.2);
+        }
+
+        .transfer-inputs {
+            margin-top: 8px;
+        }
+
+        .transfer-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .transfer-item input {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #4be828;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #3bc021;
+        }
+
+        .btn-secondary {
+            background-color: #4be828;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3bc021;
+        }
+
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-info {
+            background-color: #3498db;
+            color: white;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-info:hover {
+            background-color: #2980b9;
+        }
+
+        .summary-box {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4be828;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+            font-size: 0.9rem;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .summary-value {
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
+
+        .history-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4be828;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-group label {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .backup-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .backup-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .backup-info {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        .compact-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        .compact-table th, 
+        .compact-table td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .compact-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.7rem;
+        }
+
+        .compact-row:hover {
+            background-color: #f5f5f5;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 3px;
+        }
+
+        .edit-btn, .delete-btn {
+            color: white;
+            border: none;
+            padding: 3px 6px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.65rem;
+        }
+
+        .edit-btn {
+            background-color: #f39c12;
+        }
+
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 15px;
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cancel-btn {
+            background-color: #95a5a6;
+            color: white;
+            width: 30%;
+        }
+
+        .cancel-btn:hover {
+            background-color: #7f8c8d;
+        }
+
+        .date-display {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Responsive improvements */
+        @media (min-width: 768px) {
+            .app-layout {
+                flex-direction: row;
+            }
+            
+            .input-section, .summary-section {
+                flex: 1;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .compact-table {
+                font-size: 0.8rem;
+            }
+            
+            .compact-table th, 
+            .compact-table td {
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-controls, .backup-controls {
+                flex-direction: column;
+            }
+            
+            .filter-group, .backup-controls .btn {
+                min-width: 100%;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SUMBER BERKAH BATU ALAM</h1>
+            <p class="app-description">Catat penjualan harian, transfer, pengeluaran, dan hitung selisih dengan mudah</p>
+        </header>
+
+        <div class="app-layout">
+            <div class="input-section">
+                <h2 class="section-title" id="form-title">Input Data Penjualan</h2>
+                <form id="sales-form">
+                    <div class="form-group">
+                        <label for="date">Tanggal</label>
+                        <input type="date" id="date" required>
+                        <div class="date-display" id="current-date"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sales">Total Penjualan</label>
+                        <input type="text" id="sales" placeholder="Masukkan total penjualan" required class="currency-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cash">Uang Cash</label>
+                        <input type="text" id="cash" placeholder="Masukkan jumlah uang cash" required class="currency-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Transfer</label>
+                        <div class="transfer-inputs" id="transfer-inputs">
+                            <div class="transfer-item">
+                                <input type="text" placeholder="Nama Bank/Platform" class="transfer-name">
+                                <input type="text" placeholder="Jumlah" class="transfer-amount currency-input">
+                                <button type="button" class="btn-danger remove-transfer">Hapus</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-secondary" id="add-transfer">+ Tambah Transfer</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expense">Pengeluaran</label>
+                        <input type="text" id="expense" placeholder="Masukkan jumlah pengeluaran" class="currency-input">
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Simpan Data Penjualan</button>
+                        <button type="button" class="btn cancel-btn" id="cancel-edit" style="display: none;">Batal Edit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="summary-section">
+                <h2 class="section-title">Ringkasan Hari Ini</h2>
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <span class="summary-title">Total Penjualan:</span>
+                        <span class="summary-value" id="total-sales">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Cash:</span>
+                        <span class="summary-value" id="total-cash">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Transfer:</span>
+                        <span class="summary-value" id="total-transfer">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Pengeluaran:</span>
+                        <span class="summary-value" id="total-expense">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Selisih:</span>
+                        <span class="summary-value" id="difference">Rp 0</span>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">Total Keseluruhan</h2>
+                <div class="summary-box">
+                    <div class="summary-item">
+                        <span class="summary-title">Total Penjualan:</span>
+                        <span class="summary-value" id="overall-sales">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Cash:</span>
+                        <span class="summary-value" id="overall-cash">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Transfer:</span>
+                        <span class="summary-value" id="overall-transfer">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Pengeluaran:</span>
+                        <span class="summary-value" id="overall-expense">Rp 0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-title">Total Selisih:</span>
+                        <span class="summary-value" id="overall-difference">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="history-section">
+            <h2 class="section-title">Riwayat Penjualan</h2>
+            
+            <div class="filter-section">
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="start-date">Dari Tanggal:</label>
+                        <input type="date" id="start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="end-date">Hingga Tanggal:</label>
+                        <input type="date" id="end-date">
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn-secondary" id="filter-btn">Filter</button>
+                    </div>
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn" id="reset-filter-btn">Reset Filter</button>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="compact-table" id="sales-history">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Penjualan</th>
+                        <th>Cash</th>
+                        <th>Transfer</th>
+                        <th>Pengeluaran</th>
+                        <th>Selisih</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- BACKUP & RESTORE SECTION -->
+        <div class="backup-section">
+            <h2 class="section-title">Backup & Restore Data</h2>
+            
+            <div class="backup-controls">
+                <button id="backup-btn" class="btn btn-info">📥 Backup Data</button>
+                <button id="restore-btn" class="btn btn-warning">📤 Restore Data</button>
+                <button id="clear-data-btn" class="btn btn-danger">🗑️ Hapus Semua Data</button>
+            </div>
+
+            <div class="backup-info">
+                <strong>Tips Backup:</strong>
+                <ul style="margin-left: 20px; margin-top: 5px;">
+                    <li>Backup data sebelum update aplikasi</li>
+                    <li>Simpan file backup di tempat aman</li>
+                    <li>Restore data setelah install aplikasi baru</li>
+                </ul>
+            </div>
+
+            <!-- Hidden file input for restore -->
+            <input type="file" id="restore-file" class="file-input" accept=".json">
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let salesData = JSON.parse(localStorage.getItem('salesData')) || [];
+        let editingId = null;
+        
+        // DOM Elements
+        const salesForm = document.getElementById('sales-form');
+        const dateInput = document.getElementById('date');
+        const currentDateDisplay = document.getElementById('current-date');
+        const salesInput = document.getElementById('sales');
+        const cashInput = document.getElementById('cash');
+        const transferInputs = document.getElementById('transfer-inputs');
+        const expenseInput = document.getElementById('expense');
+        const addTransferBtn = document.getElementById('add-transfer');
+        const submitBtn = document.getElementById('submit-btn');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+        const formTitle = document.getElementById('form-title');
+        
+        // Filter elements
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const filterBtn = document.getElementById('filter-btn');
+        const resetFilterBtn = document.getElementById('reset-filter-btn');
+        
+        // Backup elements
+        const backupBtn = document.getElementById('backup-btn');
+        const restoreBtn = document.getElementById('restore-btn');
+        const clearDataBtn = document.getElementById('clear-data-btn');
+        const restoreFileInput = document.getElementById('restore-file');
+        
+        // Summary elements
+        const totalSalesEl = document.getElementById('total-sales');
+        const totalCashEl = document.getElementById('total-cash');
+        const totalTransferEl = document.getElementById('total-transfer');
+        const totalExpenseEl = document.getElementById('total-expense');
+        const differenceEl = document.getElementById('difference');
+        
+        // Overall summary elements
+        const overallSalesEl = document.getElementById('overall-sales');
+        const overallCashEl = document.getElementById('overall-cash');
+        const overallTransferEl = document.getElementById('overall-transfer');
+        const overallExpenseEl = document.getElementById('overall-expense');
+        const overallDifferenceEl = document.getElementById('overall-difference');
+        
+        // History table
+        const salesHistory = document.getElementById('sales-history').getElementsByTagName('tbody')[0];
+        
+        // Set default date to today and display
+        function setCurrentDate() {
+            const today = new Date();
+            dateInput.valueAsDate = today;
+            currentDateDisplay.textContent = 'Hari ini: ' + formatDate(today.toISOString().split('T')[0]);
+            
+            // Set filter dates to current month
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            startDateInput.valueAsDate = firstDay;
+            endDateInput.valueAsDate = today;
+        }
+        
+        // Format ribuan otomatis
+        function formatRibuan(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length > 0) {
+                value = parseInt(value).toLocaleString('id-ID');
+            }
+            
+            input.value = value;
+        }
+        
+        // Parse nilai dari format ribuan ke angka
+        function parseRibuan(value) {
+            return parseInt(value.replace(/\./g, '')) || 0;
+        }
+        
+        // Tambahkan event listener untuk input dengan format ribuan
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('currency-input')) {
+                formatRibuan(e.target);
+                updateSummary();
+            }
+        });
+        
+        // Add transfer input field
+        addTransferBtn.addEventListener('click', function() {
+            const transferItem = document.createElement('div');
+            transferItem.className = 'transfer-item';
+            transferItem.innerHTML = `
+                <input type="text" placeholder="Nama Bank/Platform" class="transfer-name">
+                <input type="text" placeholder="Jumlah" class="transfer-amount currency-input">
+                <button type="button" class="btn-danger remove-transfer">Hapus</button>
+            `;
+            transferInputs.appendChild(transferItem);
+            
+            // Add event listener to remove button
+            transferItem.querySelector('.remove-transfer').addEventListener('click', function() {
+                transferItem.remove();
+                updateSummary();
+            });
+        });
+        
+        // Remove transfer field
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-transfer')) {
+                e.target.parentElement.remove();
+                updateSummary();
+            }
+        });
+        
+        // Cancel edit mode
+        cancelEditBtn.addEventListener('click', function() {
+            cancelEdit();
+        });
+        
+        // Filter functionality
+        filterBtn.addEventListener('click', function() {
+            applyDateFilter();
+        });
+        
+        resetFilterBtn.addEventListener('click', function() {
+            startDateInput.value = '';
+            endDateInput.value = '';
+            updateHistory();
+        });
+        
+        // Backup functionality
+        backupBtn.addEventListener('click', function() {
+            backupData();
+        });
+        
+        restoreBtn.addEventListener('click', function() {
+            restoreFileInput.click();
+        });
+        
+        restoreFileInput.addEventListener('change', function(e) {
+            restoreData(e);
+        });
+        
+        clearDataBtn.addEventListener('click', function() {
+            clearAllData();
+        });
+        
+        function applyDateFilter() {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            
+            let filteredData = salesData;
+            
+            if (startDate) {
+                filteredData = filteredData.filter(item => item.date >= startDate);
+            }
+            
+            if (endDate) {
+                filteredData = filteredData.filter(item => item.date <= endDate);
+            }
+            
+            updateHistory(filteredData);
+        }
+        
+        // Backup data to JSON file
+        function backupData() {
+            if (salesData.length === 0) {
+                alert('Tidak ada data untuk di-backup!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(salesData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            // Create download link
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            
+            // Create filename with current date
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            link.download = `backup-keuangan-${dateStr}.json`;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert(`Backup berhasil! File: ${link.download}`);
+        }
+        
+        // Restore data from JSON file
+        function restoreData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate data structure
+                    if (!Array.isArray(importedData)) {
+                        throw new Error('Format file tidak valid');
+                    }
+                    
+                    // Basic validation - check if objects have required properties
+                    const isValid = importedData.every(item => 
+                        item && 
+                        typeof item === 'object' &&
+                        'id' in item &&
+                        'date' in item &&
+                        'sales' in item
+                    );
+                    
+                    if (!isValid) {
+                        throw new Error('Data dalam file tidak valid');
+                    }
+                    
+                    if (confirm(`Anda akan mengimpor ${importedData.length} data. Data lama akan digantikan. Lanjutkan?`)) {
+                        salesData = importedData;
+                        localStorage.setItem('salesData', JSON.stringify(salesData));
+                        updateHistory();
+                        updateOverallSummary();
+                        alert('Data berhasil di-restore!');
+                    }
+                } catch (error) {
+                    alert('Error: ' + error.message + '\nPastikan file backup valid.');
+                }
+                
+                // Reset file input
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+        
+        // Clear all data
+        function clearAllData() {
+            if (salesData.length === 0) {
+                alert('Tidak ada data untuk dihapus!');
+                return;
+            }
+            
+            if (confirm('HAPUS SEMUA DATA? Tindakan ini tidak dapat dibatalkan!')) {
+                salesData = [];
+                localStorage.setItem('salesData', JSON.stringify(salesData));
+                updateHistory();
+                updateOverallSummary();
+                alert('Semua data telah dihapus!');
+            }
+        }
+        
+        // Form submission
+        salesForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get transfer data
+            const transferItems = document.querySelectorAll('.transfer-item');
+            const transfers = [];
+            let totalTransfer = 0;
+            
+            transferItems.forEach(item => {
+                const name = item.querySelector('.transfer-name').value || 'Transfer';
+                const amount = parseRibuan(item.querySelector('.transfer-amount').value) || 0;
+                if (amount > 0) {
+                    transfers.push({ name, amount });
+                    totalTransfer += amount;
+                }
+            });
+            
+            // Calculate values
+            const sales = parseRibuan(salesInput.value) || 0;
+            const cash = parseRibuan(cashInput.value) || 0;
+            const expense = parseRibuan(expenseInput.value) || 0;
+            
+            // Selisih = (Cash + Transfer) - Penjualan
+            const difference = (cash + totalTransfer) - sales;
+            
+            if (editingId) {
+                // Update existing data
+                const index = salesData.findIndex(item => item.id === editingId);
+                if (index !== -1) {
+                    salesData[index] = {
+                        id: editingId,
+                        date: dateInput.value,
+                        sales: sales,
+                        cash: cash,
+                        transfers: transfers,
+                        totalTransfer: totalTransfer,
+                        expense: expense,
+                        difference: difference
+                    };
+                    
+                    localStorage.setItem('salesData', JSON.stringify(salesData));
+                    
+                    // Update UI
+                    updateHistory();
+                    updateOverallSummary();
+                    
+                    // Reset form and exit edit mode
+                    cancelEdit();
+                    
+                    // Show success message
+                    alert('Data penjualan berhasil diperbarui!');
+                }
+            } else {
+                // Create data object
+                const data = {
+                    id: Date.now(),
+                    date: dateInput.value,
+                    sales: sales,
+                    cash: cash,
+                    transfers: transfers,
+                    totalTransfer: totalTransfer,
+                    expense: expense,
+                    difference: difference
+                };
+                
+                // Add to data array and save
+                salesData.push(data);
+                localStorage.setItem('salesData', JSON.stringify(salesData));
+                
+                // Update UI
+                updateHistory();
+                updateOverallSummary();
+                
+                // Reset form
+                salesForm.reset();
+                setCurrentDate();
+                
+                // Keep one empty transfer field
+                transferInputs.innerHTML = '';
+                addTransferBtn.click();
+                
+                // Show success message
+                alert('Data penjualan berhasil disimpan!');
+            }
+            
+            updateSummary();
+        });
+        
+        // Function to edit data
+        function editData(id) {
+            const data = salesData.find(item => item.id === id);
+            if (!data) return;
+            
+            // Set form values
+            dateInput.value = data.date;
+            salesInput.value = data.sales.toLocaleString('id-ID');
+            cashInput.value = data.cash.toLocaleString('id-ID');
+            expenseInput.value = data.expense.toLocaleString('id-ID');
+            
+            // Set transfer values
+            transferInputs.innerHTML = '';
+            if (data.transfers && data.transfers.length > 0) {
+                data.transfers.forEach(transfer => {
+                    const transferItem = document.createElement('div');
+                    transferItem.className = 'transfer-item';
+                    transferItem.innerHTML = `
+                        <input type="text" placeholder="Nama Bank/Platform" class="transfer-name" value="${transfer.name}">
+                        <input type="text" placeholder="Jumlah" class="transfer-amount currency-input" value="${transfer.amount.toLocaleString('id-ID')}">
+                        <button type="button" class="btn-danger remove-transfer">Hapus</button>
+                    `;
+                    transferInputs.appendChild(transferItem);
+                    
+                    // Add event listener to remove button
+                    transferItem.querySelector('.remove-transfer').addEventListener('click', function() {
+                        transferItem.remove();
+                        updateSummary();
+                    });
+                });
+            } else {
+                addTransferBtn.click();
+            }
+            
+            // Set editing mode
+            editingId = id;
+            formTitle.textContent = 'Edit Data Penjualan';
+            submitBtn.textContent = 'Update Data Penjualan';
+            cancelEditBtn.style.display = 'block';
+            
+            // Update summary with edited data
+            updateSummary();
+        }
+        
+        // Function to cancel edit mode
+        function cancelEdit() {
+            editingId = null;
+            formTitle.textContent = 'Input Data Penjualan';
+            submitBtn.textContent = 'Simpan Data Penjualan';
+            cancelEditBtn.style.display = 'none';
+            
+            // Reset form
+            salesForm.reset();
+            setCurrentDate();
+            
+            // Reset transfer fields
+            transferInputs.innerHTML = '';
+            addTransferBtn.click();
+            
+            // Update summary
+            updateSummary();
+        }
+        
+        // Update summary for current input
+        function updateSummary() {
+            // Get transfer data
+            const transferItems = document.querySelectorAll('.transfer-item');
+            let totalTransfer = 0;
+            
+            transferItems.forEach(item => {
+                const amount = parseRibuan(item.querySelector('.transfer-amount').value) || 0;
+                totalTransfer += amount;
+            });
+            
+            // Calculate values
+            const sales = parseRibuan(salesInput.value) || 0;
+            const cash = parseRibuan(cashInput.value) || 0;
+            const expense = parseRibuan(expenseInput.value) || 0;
+            
+            // Selisih = (Cash + Transfer) - Penjualan
+            const difference = (cash + totalTransfer) - sales;
+            
+            // Update summary display
+            totalSalesEl.textContent = formatCurrency(sales);
+            totalCashEl.textContent = formatCurrency(cash);
+            totalTransferEl.textContent = formatCurrency(totalTransfer);
+            totalExpenseEl.textContent = formatCurrency(expense);
+            
+            // Set difference color - hijau untuk plus, merah untuk minus
+            differenceEl.textContent = formatCurrency(difference);
+            if (difference >= 0) {
+                differenceEl.className = 'summary-value positive';
+            } else {
+                differenceEl.className = 'summary-value negative';
+            }
+        }
+        
+        // Update overall summary
+        function updateOverallSummary() {
+            let totalSales = 0;
+            let totalCash = 0;
+            let totalTransfer = 0;
+            let totalExpense = 0;
+            let totalDifference = 0;
+            
+            salesData.forEach(data => {
+                totalSales += data.sales;
+                totalCash += data.cash;
+                totalTransfer += data.totalTransfer;
+                totalExpense += data.expense;
+                totalDifference += data.difference;
+            });
+            
+            overallSalesEl.textContent = formatCurrency(totalSales);
+            overallCashEl.textContent = formatCurrency(totalCash);
+            overallTransferEl.textContent = formatCurrency(totalTransfer);
+            overallExpenseEl.textContent = formatCurrency(totalExpense);
+            overallDifferenceEl.textContent = formatCurrency(totalDifference);
+            
+            // Set difference color - hijau untuk plus, merah untuk minus
+            if (totalDifference >= 0) {
+                overallDifferenceEl.className = 'summary-value positive';
+            } else {
+                overallDifferenceEl.className = 'summary-value negative';
+            }
+        }
+        
+        // Update history table
+        function updateHistory(data = null) {
+            salesHistory.innerHTML = '';
+            
+            const displayData = data || salesData;
+            
+            if (displayData.length === 0) {
+                const row = salesHistory.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.className = 'no-data';
+                cell.textContent = 'Belum ada data penjualan. Silakan tambahkan data penjualan pertama Anda.';
+                return;
+            }
+            
+            // Sort data by date (newest first)
+            const sortedData = [...displayData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedData.forEach(data => {
+                const row = salesHistory.insertRow();
+                row.className = 'compact-row';
+                
+                // Format transfers for display
+                let transfersText = '';
+                data.transfers.forEach(transfer => {
+                    transfersText += `${transfer.name}: ${formatCurrency(transfer.amount)} `;
+                });
+                
+                if (transfersText === '') {
+                    transfersText = '-';
+                }
+                
+                row.innerHTML = `
+                    <td>${formatDate(data.date)}</td>
+                    <td>${formatCurrency(data.sales)}</td>
+                    <td>${formatCurrency(data.cash)}</td>
+                    <td>${transfersText}</td>
+                    <td>${formatCurrency(data.expense)}</td>
+                    <td class="${data.difference >= 0 ? 'positive' : 'negative'}">${formatCurrency(data.difference)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="edit-btn" data-id="${data.id}">Edit</button>
+                            <button class="delete-btn" data-id="${data.id}">Hapus</button>
+                        </div>
+                    </td>
+                `;
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    editData(id);
+                });
+            });
+            
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        // Hapus data dari array
+                        salesData = salesData.filter(item => item.id !== id);
+                        
+                        // Simpan ke localStorage
+                        localStorage.setItem('salesData', JSON.stringify(salesData));
+                        
+                        // Update UI
+                        updateHistory();
+                        updateOverallSummary();
+                        
+                        // Jika data yang dihapus sedang diedit, batalkan edit mode
+                        if (editingId === id) {
+                            cancelEdit();
+                        }
+                        
+                        // Tampilkan pesan sukses
+                        alert('Data berhasil dihapus!');
+                    }
+                });
+            });
+        }
+        
+        // Helper function to format currency
+        function formatCurrency(amount) {
+            // Tambahkan tanda minus jika nilai negatif
+            const sign = amount < 0 ? '-' : '';
+            // Format nilai absolut dengan pemisah ribuan
+            const formatted = Math.abs(amount).toLocaleString('id-ID');
+            return `${sign}Rp ${formatted}`;
+        }
+        
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+        
+        // Initialize the app
+        function init() {
+            setCurrentDate();
+            updateSummary();
+            updateHistory();
+            updateOverallSummary();
+            
+            // Add one initial transfer field
+            addTransferBtn.click();
+        }
+        
+        // Start the app
+        init();
+
+        // Add Cordova device ready event
+        document.addEventListener('deviceready', function() {
+            console.log('Aplikasi siap dijalankan di mobile!');
+        }, false);
+    </script>
+</body>
+</html>
